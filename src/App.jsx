@@ -1,10 +1,10 @@
 import { Suspense, lazy } from "react";
-import { Box } from "@mui/material";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import LoadingSpinner from "./components/spinner/LoadingSpinner";
 import Default from "./pages/Default";
 import Analytics from "./pages/Analytics";
 import PanelLayout from "./layouts/PanelLayout";
+import Profile from "./pages/Profile";
 
 // function lazyLoadRoutes(componentName, src = "pages") {
 //   const LazyElement = lazy(() => import(`./${src}/${componentName}`));
@@ -60,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/default",
         element: <Default />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       // {
       //   path: "projects",

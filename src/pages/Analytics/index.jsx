@@ -1,5 +1,3 @@
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
@@ -19,14 +17,14 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TextField,
+  TextField,Box
 } from "@mui/material";
 import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import Charttt from "./Charttt";
 import { Fragment, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
-import { COUNTRY_FLAGS, allAppThemes } from "../../Utility/utils";
+import { COUNTRY_FLAGS } from "../../Utility/utils";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
@@ -73,7 +71,6 @@ const Analytics = () => {
                 elevation={0}
                 sx={{
                   flex: "1 0 auto",
-                  height: 400,
                   overflow: "visible",
                 }}
               >
@@ -82,7 +79,9 @@ const Analytics = () => {
                     "&:last-child": {
                       padding: 0,
                     },
+                    boxShadow: 0,
                   }}
+                  component={Paper}
                 >
                   <Box p={4} height={"100%"}>
                     <Grid container spacing={1} alignItems="center">
@@ -101,7 +100,7 @@ const Analytics = () => {
                         </Typography>
                       </Grid>
                     </Grid>
-                    <Typography variant="subtitle1" color="grey.700">
+                    <Typography variant="subtitle1" color="text.secondary">
                       Department wise monthly sales report
                     </Typography>
                     <Grid container spacing={3} alignItems="center" mt={0}>

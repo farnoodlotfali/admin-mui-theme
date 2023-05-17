@@ -11,10 +11,12 @@
 
 body {
   min-height: 100vh;
-  background-color: #eef2f6;
 }
 
 body #root {
   height: 100vh;
   overflow: auto;
+}
+a {
+  text-decoration: none;
 }

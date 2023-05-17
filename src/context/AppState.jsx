@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AppContext } from "./AppContext";
-import { allAppThemes, darkBackgrounds } from "../Utility/utils";
+import { darkBackgrounds } from "../Utility/Themes/backgrounds";
+import { DarkThemes } from "../Utility/Themes/darkThemes";
+import { LightThemes } from "../Utility/Themes/lightThemes";
 
-const LIGHT_BACKGROUND = { paper: "#fff", default: "#fff" };
+const LIGHT_BACKGROUND = { paper: "#fff", default: "#EEF2F6" };
 
 const AppState = (props) => {
   const [mode, setMode] = useState(localStorage.getItem("mode") ?? "light");
@@ -15,18 +17,26 @@ const AppState = (props) => {
   const [themeColors, setThemeColors] = useState(
     localStorage.getItem("theme")
       ? JSON.parse(localStorage.getItem("theme"))
-      : allAppThemes.theme1
+      : LightThemes.theme1
   );
 
   const toggleColorMode = () => {
     const newMode = mode === "light" ? "dark" : "light";
     setMode(newMode);
     localStorage.setItem("mode", newMode);
+    // change theme according to mode
+    changeTheme(themeColors);
   };
 
   const changeTheme = (aTheme) => {
-    localStorage.setItem("theme", JSON.stringify(aTheme));
-    setThemeColors(aTheme);
+    let chosenTheme;
+    if (mode === "light") {
+      chosenTheme = LightThemes[aTheme.name];
+    } else {
+      chosenTheme = DarkThemes[aTheme.name];
+    }
+    localStorage.setItem("theme", JSON.stringify(chosenTheme));
+    setThemeColors(chosenTheme);
     setBackground(darkBackgrounds[aTheme.name]);
   };
 
@@ -36,14 +46,36 @@ const AppState = (props) => {
         palette: {
           mode,
           ...(mode === "light"
-            ? themeColors
-            : { ...themeColors, background: background }),
+            ? {
+                ...themeColors,
+                background: LIGHT_BACKGROUND,
+              }
+            : {
+                ...themeColors,
+                background: background,
+              }),
         },
         components: {
           MuiButton: {
             styleOverrides: {
               root: {
                 textTransform: "none",
+              },
+            },
+          },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                textTransform: "none",
+              },
+            },
+          },
+          MuiCardContent: {
+            styleOverrides: {
+              root: {
+                "&:last-child": {
+                  paddingBottom: 8,
+                },
               },
             },
           },
@@ -55,7 +87,10 @@ const AppState = (props) => {
     <AppContext.Provider
       value={{ toggleColorMode, changeTheme, themeColors, mode }}
     >
-      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        {props.children}
+      
+      </ThemeProvider>
     </AppContext.Provider>
   );
 };

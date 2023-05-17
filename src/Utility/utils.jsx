@@ -1,3 +1,5 @@
+import { useTheme } from "@emotion/react";
+
 export const COUNTRY_FLAGS = {
   Germany:
     "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz/2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz/wgARCAAhADIDAREAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAAAAECBQcIBP/EABsBAQACAwEBAAAAAAAAAAAAAAABAgQFBwMG/9oADAMBAAIQAxAAAADgYoAAZZbYOu7PEyABk4run5rfwAAe63j2LzLl6JAAtk1tFUAALZEf/8QAKxAAAAMECgICAwAAAAAAAAAAAAIDAQcXkQQFE0FTVFaU0dIgMSMkJjJC/9oACAEBAAE/AFVVGKn+Q/tt7RaqYpptFqpimm0WqmKabRaqYpptFqpimm0ItO1EjbU/6s/tvIUdnVFqf7VN9tvJwIZ1RmabMnAhnVGZpsycCGdUZmmzJwIZ1RmabMnAhnVGZpsycBJ29UWRPs030y8nUHcE8PTxtyj2EAXh6ePuUewgC8PTx9yj2EAXh6ePuUewgC8PTx9yj2EAXh6ePuUewTcU8ApC/jxtyj2F/nf5/wD/xAAgEQABAgcBAQEAAAAAAAAAAAAAAQIFFBZRU6HRIDED/9oACAECAQE/APc4+xOPsTj7E4+xOPsTj7E3+hUMOyaXhUUPyaXhUUPyaXhUUPyaXhUUPyaXhUUPyaXhUMOyaXgvpvxBfTfiH//EACARAAAFBQEBAQAAAAAAAAAAAAABBVPRAxYXoaIGIDD/2gAIAQMBAT8A+8dJblTmBjpLcqcwMdJblTmBjpLcqcwMdJblTmBjpLcqcwMdJblTmAXp0t7RwLnS3dHAudLd0cC50t3RwLnS3dHAudLd0cA/TJj2jj9//9k=",
@@ -10,220 +12,20 @@ export const COUNTRY_FLAGS = {
   USA: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz/2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz/wgARCAAhADIDAREAAhEBAxEB/8QAHAAAAQQDAQAAAAAAAAAAAAAAAAMEBQYBAgcI/8QAGwEBAAIDAQEAAAAAAAAAAAAAAAIHAwQFAQb/2gAMAwEAAhADEAAAAOb2j8w+xzj8uLu9T3TJ6e8C/sfP9vUfYtbJXtjD2Sq7mkdPoA79hQetzsGry4cvpLxmDpBDPLEQAALy88saNoapAABJtX//xAA5EAAABAMDCAYJBQAAAAAAAAABAgMEAAURBgcYCBIhVleUldITFRcjk+MUJDIzQUJRcdMWICJhcv/aAAgBAQABPwAwS3qNysL9116V0BEmPRd0oiJaifpK6DV+X6aYI2syM8laAz2YjJFkSGevQa96gqIDUiadanLWgAYPuEJJypWTzU60zdlmpFCFYtyJZybggiIGOc4D/GgaQD4/CLN5W7SzlnZRJj2TWXNLmqbXpfTwLn5haVpmRjQZalrcSD8cY0GWpa3Eg/HGMhjqYvxLy4M9XCwMyYddtganmRVjyTofWFTAWgLlUpoL8tIJPHwW9su+/W8qK6asUk05wDP1eXlAhqIqEpQxi+yJvqYKwzeuQsfatkSfs0EXbpIyktOhVaYGA40OmalSlLXOEKhoizmVFZmQWclEpXsWdwswapNjrZ6PeGIUCib2YxcWT1EU8RHkjFxZPURTxEeSCZWFldST+Ijywa8i4rZY73nzI7R7idlbvevMjtHuJ2VO968yGWUtdqwaINELvjlbIEKkmUUm5qAH9jpjFHd1qAfd20Yo7utQD7u2gmU1d9qIfd20Yi7odnh+GM+aMRd0Wzw/DGfNGIu6LZ4fhjPmjEXdFs8PwxnzRiLui2eH4Yz5oxF3RbPD8MZ80YiLo9QTcNac0Ke8P9x/cl7on+Qj/8QALREAAAMEBwgDAQAAAAAAAAAAAAIDARIUUgQFERMVobEWITFBUWFxoiIjMjD/2gAIAQIBAT8A+y8dd+NnHv4FtIuzGu2PcmW8h9l4Urvx59hWVYFLTViu8DN5jEyy5sGJllzYMRLLmHCxRTu73f1y8BiJYVQly2xrfzbvb3DSFiET3bdzOPTyKyrBMtNWK7wM3p1GJJy6DEk5dBiKcug2tpc7fUbW0udvqNraXO31ClZkUMYxy72+BiCMugxBGXQR6MugikZchFIy5CKRlyEUjLkIpGXIRSMuQi0pf4f/xAA1EQAAAgcEBwUJAAAAAAAAAAAAAgEDBBIWVKIFBhEXISJTkqGy0TFBYXHiBxMUICMyUYHh/9oACAEDAQE/ANV3xGCt4utoCXXTG7xZfs8O1MChp+JwfIVODv5R5jLRbMo3fUMtFsyjd9Qy1XTKN31DH6br3f2B83vCme/YxdVm1v6LKuK2tTAoXlacEGIVOGnRijzGXjfN83UZeN83zdRl+3zfN1GVK3aEqGVK3aEqGVS3aEqBLhWsrKUpWtCEI8TCBbYm+JhAtsTfEwga1pviYQbeGdrOIMvDO1nEGXhnaziDLwztZxBl4Z2s4gy8M7WcQdeCdrOEfb8xu1I//9k=",
 };
 
-const theme1 = {
-  name: "theme1",
-  primary: {
-    light: "#E3F2FD",
-    200: "#90CAF9",
-    main: "#2196F3",
-    dark: "#1E88E5",
-    800: "#1565C0",
-  },
-  secondary: {
-    light: "#EDE7F6",
-    200: "#B39DDB",
-    main: "#673AB7",
-    dark: "#5E35B1",
-    800: "#4527A0",
-  },
-  success: {
-    light: "#B9F6CA",
-    200: "#00E676",
-    main: "#00E676",
-    dark: "#00C853",
-  },
-  orange: {
-    light: "#FBE9E7",
-    main: "#FFAB91",
-    dark: "#D84315",
-  },
-  error: {
-    light: "#FFE9E9",
-    main: "#F44336",
-    dark: "#C62828",
-  },
-  warning: {
-    light: "#FFF8E1",
-    main: "#FFE57F",
-    dark: "#FFC107",
-  },
-  grey: {
-    50: "#F8FAFC",
-    100: "#EEF2F6",
-    200: "#EEEEEE",
-    300: "#E0E0E0",
-    500: "#697586",
-    600: "#364152",
-    700: "#364152",
-    900: "#121926",
-  },
-};
+const chartColors = [
+  "primary",
+  "secondary",
+  "orange",
+  "success",
+  "error",
+  "warning",
+];
+export const renderThemeColors = () => {
+  const theme = useTheme();
+  let colors = [];
+  chartColors.forEach((c) => {
+    colors.push(theme.palette?.[c].main);
+  });
 
-const theme2 = {
-  name: "theme2",
-  primary: {
-    light: "#ECEFF1",
-    200: "#B0BEC5",
-    main: "#607D8B",
-    dark: "#546E7A",
-    800: "#455A64",
-  },
-  secondary: {
-    light: "#E0F2F1",
-    200: "#80CBC4",
-    main: "#009688",
-    dark: "#00897B",
-    800: "#00695C",
-  },
-  success: {
-    light: "#EDF7ED",
-    200: "#6CC067",
-    main: "#6CC067",
-    dark: "#64BA5F",
-  },
-  orange: {
-    light: "#FBE9E7",
-    main: "#FFAB91",
-    dark: "#D84315",
-  },
-  error: {
-    light: "#FFE9E9",
-    main: "#D9534F",
-    dark: "#D54C48",
-  },
-  warning: {
-    light: "#FDF5EA",
-    main: "#F0AD4E",
-    dark: "#EC9C3D",
-  },
-  grey: {
-    50: "#F8FAFC",
-    100: "#EEF2F6",
-    200: "#EEEEEE",
-    300: "#E0E0E0",
-    500: "#697586",
-    600: "#364152",
-    700: "#364152",
-    900: "#121926",
-  },
+  return colors;
 };
-
-const theme3 = {
-  name: "theme3",
-  primary: {
-    light: "#E4E7EC",
-    200: "#909AB0",
-    main: "#203461",
-    dark: "#1C2F59",
-    800: "#132145",
-  },
-  secondary: {
-    light: "#FDE8EF",
-    200: "#F6A0BD",
-    main: "#EC407A",
-    dark: "#EA3A72",
-    800: "#E42A5D",
-  },
-  success: {
-    light: "#E3F8E8",
-    200: "#17C13E",
-    main: "#17C13E",
-    dark: "#14BB38",
-  },
-  orange: {
-    light: "#FBE9E7",
-    main: "#FFAB91",
-    dark: "#D84315",
-  },
-  error: {
-    light: "#FFE9E9",
-    main: "#D9534F",
-    dark: "#D54C48",
-  },
-  warning: {
-    light: "#FDF5EA",
-    main: "#F0AD4E",
-    dark: "#EC9C3D",
-  },
-  grey: {
-    50: "#F8FAFC",
-    100: "#EEF2F6",
-    200: "#EEEEEE",
-    300: "#E0E0E0",
-    500: "#697586",
-    main: "#697586",
-    600: "#364152",
-    700: "#364152",
-    900: "#121926",
-  },
-};
-
-const theme4 = {
-  name: "theme4",
-  primary: {
-    light: "#E3EBEB",
-    200: "#8BACAD",
-    main: "#16595A",
-    dark: "#135152",
-    800: "#0C3E3F",
-  },
-  secondary: {
-    light: "#F8F0E5",
-    200: "#E3BF91",
-    main: "#C77E23",
-    dark: "#C1761F",
-    800: "#B36115",
-  },
-  success: {
-    light: "#B9F6CA",
-    200: "#00E676",
-    main: "#00E676",
-    dark: "#00C853",
-  },
-  orange: {
-    light: "#FBE9E7",
-    main: "#FFAB91",
-    dark: "#D84315",
-  },
-  error: {
-    light: "#FFE9E9",
-    main: "#F44336",
-    dark: "#C62828",
-  },
-  warning: {
-    light: "#FFF8E1",
-    main: "#FFE57F",
-    dark: "#FFC107",
-  },
-  grey: {
-    50: "#F8FAFC",
-    100: "#EEF2F6",
-    200: "#EEEEEE",
-    300: "#E0E0E0",
-    500: "#697586",
-    600: "#364152",
-    700: "#364152",
-    900: "#121926",
-  },
-};
-
-export const darkBackgrounds = {
-  theme1: {
-    paper: "#1A223F",
-    default: "#1A223F",
-  },
-  theme2: {
-    paper: "#0E1B23",
-    default: "#0E1B23",
-  },
-  theme3: {
-    paper: "#12172F",
-    default: "#12172F",
-  },
-  theme4: {
-    paper: "#010F17",
-    default: "#010F17",
-  },
-};
-
-export const allAppThemes = { theme1, theme2, theme3, theme4 };

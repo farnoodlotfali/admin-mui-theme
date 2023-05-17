@@ -1,17 +1,21 @@
 import { Box, Button, IconButton, Stack } from "@mui/material";
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import { allAppThemes } from "../../Utility/utils";
+
 import { useTheme } from "@mui/material/styles";
 import { AppContext } from "../../context/AppContext";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { LightThemes } from "../../Utility/Themes/lightThemes";
 
 const PanelLayout = () => {
   const theme = useTheme();
   const { toggleColorMode, changeTheme } = useContext(AppContext);
   return (
-    <div style={{ height: "100vh" }} className="App">
+    <Box
+      sx={{ minHeight: "100vh", bgcolor: "background.default" ,p:3 }}
+      className="App"
+    >
       <Box
         sx={{
           display: "flex",
@@ -39,7 +43,7 @@ const PanelLayout = () => {
       </Box>
 
       <Stack py={5} spacing={3} direction={"row"} bgcolor={"lightgreen"}>
-        {Object.entries(allAppThemes).map((theme) => {
+        {Object.entries(LightThemes).map((theme) => {
           return (
             <Button
               key={theme[0]}
@@ -59,7 +63,7 @@ const PanelLayout = () => {
       </Stack>
       <Outlet />
       {/* <Test /> */}
-    </div>
+    </Box>
   );
 };
 

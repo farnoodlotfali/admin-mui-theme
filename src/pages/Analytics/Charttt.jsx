@@ -1,18 +1,10 @@
-import { Box } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material/styles";
-import {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useMemo } from "react";
 import { AppContext } from "../../context/AppContext";
 const chartColors = [
-  "primary",
   "secondary",
+  "primary",
   "orange",
   "success",
   "error",
@@ -20,10 +12,9 @@ const chartColors = [
   "grey",
 ];
 
-const Charttt = () => {
+const Charttt = ({ lines = 3, height = 200 }) => {
   const theme = useTheme();
-  const x = useRef(null);
-  const { themeColors,  } = useContext(AppContext);
+  const { themeColors } = useContext(AppContext);
 
   const renderColors = useMemo(() => {
     let colors = [];
@@ -34,7 +25,6 @@ const Charttt = () => {
     return colors;
   }, [themeColors]);
 
-console.log(theme.palette.mode);
   return (
     <>
       <ReactApexChart
@@ -45,7 +35,8 @@ console.log(theme.palette.mode);
             sparkline: {
               enabled: true,
             },
-            width: "100%",background:"inherit"
+            width: "100%",
+            background: "inherit",
           },
 
           colors: renderColors,
@@ -95,12 +86,12 @@ console.log(theme.palette.mode);
             show: false,
           },
           theme: {
-            mode:theme.palette.mode,
+            mode: theme.palette.mode,
           },
         }}
-        series={stateTest.series}
+        series={stateTest.series.slice(0, lines)}
         type="area"
-        height={200}
+        height={height}
         width={"100%"}
       />
     </>
