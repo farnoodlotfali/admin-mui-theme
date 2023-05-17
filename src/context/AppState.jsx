@@ -25,12 +25,12 @@ const AppState = (props) => {
     setMode(newMode);
     localStorage.setItem("mode", newMode);
     // change theme according to mode
-    changeTheme(themeColors);
+    changeTheme(themeColors, newMode);
   };
 
-  const changeTheme = (aTheme) => {
+  const changeTheme = (aTheme, themeMode = mode) => {
     let chosenTheme;
-    if (mode === "light") {
+    if (themeMode === "light") {
       chosenTheme = LightThemes[aTheme.name];
     } else {
       chosenTheme = DarkThemes[aTheme.name];
@@ -79,18 +79,30 @@ const AppState = (props) => {
               },
             },
           },
+          MuiFormLabel: {
+            styleOverrides: {
+              root: ({ ownerState, theme }) => ({
+                color: theme.palette.grey[500],
+              }),
+            },
+          },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: ({ ownerState, theme }) => ({
+                background: theme.palette.background.default,
+                borderRadius: theme.spacing(1),
+              }),
+            },
+          },
         },
       }),
-    [mode, themeColors]
+    [mode, themeColors, background]
   );
   return (
     <AppContext.Provider
       value={{ toggleColorMode, changeTheme, themeColors, mode }}
     >
-      <ThemeProvider theme={theme}>
-        {props.children}
-      
-      </ThemeProvider>
+      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
     </AppContext.Provider>
   );
 };
