@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { AppContext } from "./AppContext";
 import { darkBackgrounds } from "../Utility/Themes/backgrounds";
 import { DarkThemes } from "../Utility/Themes/darkThemes";
@@ -102,7 +102,7 @@ const AppState = (props) => {
     <AppContext.Provider
       value={{ toggleColorMode, changeTheme, themeColors, mode }}
     >
-      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>{props.children}</ThemeProvider>
     </AppContext.Provider>
   );
 };

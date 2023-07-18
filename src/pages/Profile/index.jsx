@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Collapse,
   Container,
   Divider,
   Grid,
@@ -44,6 +45,9 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { Link } from "react-router-dom";
+import { FormContainer, FormInputs } from "../../components/form/Form";
+import { LoadingButton } from "@mui/lab";
+import { useForm } from "react-hook-form";
 
 const PROFILE_TABS = [
   { title: "Profile", icon: PortraitIcon },
@@ -54,11 +58,40 @@ const PROFILE_TABS = [
 ];
 
 const Profile = () => {
-  const [value, setValue] = useState(0);
+  const [tab, setTab] = useState(0);
+  const [show, setShow] = useState(false);
 
-  const handleChange = (event, newValue) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
+  const Inputs = [
+    {
+      type: "text",
+      name: "comment",
+      label: "Write a comment...",
+      control: control,
+      rules: { required: "Comment Field is Required" },
+    },
+  ];
+  // handle on change inputs
+  const handleChange = (name, value) => {
+    setValue(name, value);
+  };
+
+  const handleChangeTab = (event, newValue) => {
     console.log(newValue);
-    setValue(newValue);
+    setTab(newValue);
   };
 
   return (
@@ -197,8 +230,8 @@ const Profile = () => {
                         height: 56,
                         display: "flex",
                       }}
-                      value={value}
-                      onChange={handleChange}
+                      value={tab}
+                      onChange={handleChangeTab}
                       variant="scrollable"
                       scrollButtons="auto"
                       textColor="secondary"
@@ -353,7 +386,7 @@ const Profile = () => {
             <Grid item xs={12} sm={12} md={8}>
               <Card elevation={0} sx={{ borderRadius: 2, p: 1 }}>
                 <CardContent>
-                  <Box gap={3} display="flex" flexDirection="column">
+                  <Box gap={3} mb={3} display="flex" flexDirection="column">
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <Avatar
@@ -421,6 +454,7 @@ const Profile = () => {
                             <ChatBubbleTwoToneIcon color="secondary" />
                           }
                           color="inherit"
+                          onClick={() => setShow((prev) => !prev)}
                         >
                           Comments
                         </Button>
@@ -433,12 +467,278 @@ const Profile = () => {
                       </Grid>
                     </Grid>
                   </Box>
+                  <Collapse in={show}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <FormContainer
+                        data={watch()}
+                        setData={handleChange}
+                        errors={errors}
+                      >
+                        <FormInputs
+                          inputs={Inputs}
+                          gridProps={{ xs: true, md: true }}
+                        >
+                          <Grid item>
+                            <Avatar
+                              sx={{
+                                width: 32,
+                                mt: 1,
+                                height: 32,
+                                ".MuiAvatar-img": {
+                                  objectFit: "fill",
+                                },
+                              }}
+                              src={logo_user}
+                              alt="logo"
+                            />
+                          </Grid>
+                          <Grid item>
+                            <LoadingButton
+                              variant="contained"
+                              size="large"
+                              sx={{ width: "100%", mt: 1 }}
+                              loading={isSubmitting}
+                              type="submit"
+                              color="secondary"
+                            >
+                              Comment
+                            </LoadingButton>
+                          </Grid>
+                        </FormInputs>
+                      </FormContainer>
+                    </form>
+                  </Collapse>
+
+                  <Stack spacing={2} mt={3}>
+                    {COMMENTS_DATA.map((item) => {
+                      return (
+                        <CommentReplyItem
+                          id={item.id}
+                          childSize={item.childSize}
+                          name={item.name}
+                        />
+                      );
+                    })}
+                  </Stack>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+    </>
+  );
+};
+
+const COMMENTS_DATA = [
+  {
+    id: 1,
+    name: "1",
+    childSize: [
+      {
+        id: 11,
+        name: "11",
+      },
+      {
+        id: 12,
+        name: "12",
+      },
+      {
+        id: 13,
+        name: "13",
+        childSize: [
+          {
+            id: 31,
+            name: "31",
+          },
+          {
+            id: 32,
+            name: "32",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const CommentReplyItem = ({ name, childSize }) => {
+  const [show, setShow] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
+  const Inputs = [
+    {
+      type: "text",
+      name: "comment",
+      label: "Write a comment...",
+      control: control,
+      rules: { required: "Comment Field is Required" },
+    },
+  ];
+  // handle on change inputs
+  const handleChange = (name, value) => {
+    setValue(name, value);
+  };
+  return (
+    <>
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 2,
+          p: 1,
+          bgcolor: "background.default",
+        }}
+      >
+        <CardContent>
+          {name}
+          <Box gap={3} mb={3} display="flex" flexDirection="column">
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Avatar
+                  sx={{
+                    ".MuiAvatar-img": {
+                      objectFit: "fill",
+                    },
+                  }}
+                  src={logo_user}
+                  alt="logo"
+                />
+              </Grid>
+              <Grid item xs={true}>
+                <Stack direction="row" alignItems="center">
+                  <Typography>Farnood Lotfali</Typography>
+                  <FiberManualRecordRoundedIcon
+                    sx={{
+                      fontSize: 10,
+                      ml: 2,
+                      mr: 1,
+                      color: "grey.600",
+                    }}
+                  />
+                  <Typography sx={{ fontSize: 12, color: "grey.500" }}>
+                    now
+                  </Typography>
+                </Stack>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  size="small"
+                  sx={{
+                    bgcolor: "background.default",
+                    ":hover": {
+                      bgcolor: "secondary.800",
+                    },
+                  }}
+                >
+                  <MoreVertRoundedIcon fontSize="inherit" />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Typography component={"p"}>
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout. There
+              are many variations of passages.
+            </Typography>
+            <Grid
+              container
+              spacing={1}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Grid item gap={2} display="flex">
+                <Button
+                  variant="text"
+                  startIcon={<ThumbUpTwoToneIcon color="primary" />}
+                  color="inherit"
+                >
+                  Likes
+                </Button>
+                <Button
+                  variant="text"
+                  startIcon={<ChatBubbleTwoToneIcon color="secondary" />}
+                  color="inherit"
+                  onClick={() => setShow((prev) => !prev)}
+                >
+                  Comments
+                </Button>
+              </Grid>
+
+              <Grid item>
+                <IconButton>
+                  <ShareOutlinedIcon fontSize="small" />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Box>
+          <Collapse in={show}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormContainer
+                data={watch()}
+                setData={handleChange}
+                errors={errors}
+              >
+                <FormInputs inputs={Inputs} gridProps={{ xs: true, md: true }}>
+                  <Grid item>
+                    <Avatar
+                      sx={{
+                        width: 32,
+                        mt: 1,
+                        height: 32,
+                        ".MuiAvatar-img": {
+                          objectFit: "fill",
+                        },
+                      }}
+                      src={logo_user}
+                      alt="logo"
+                    />
+                  </Grid>
+                  <Grid item>
+                    <LoadingButton
+                      variant="contained"
+                      size="large"
+                      sx={{ width: "100%", mt: 1 }}
+                      loading={isSubmitting}
+                      type="submit"
+                      color="secondary"
+                    >
+                      Comment
+                    </LoadingButton>
+                  </Grid>
+                </FormInputs>
+              </FormContainer>
+            </form>
+          </Collapse>
+        </CardContent>
+      </Card>
+      {/* replies or comments */}
+      <Stack >
+        {childSize &&
+          childSize.map((item, i) => {
+            return (
+              <Box ml={4} mt={1} >
+                <CommentReplyItem
+                  id={item.id}
+                  childSize={item.childSize}
+                  name={item.name}
+                />
+              </Box>
+            );
+          })}
+        {/* {COMMENTS_DATA.map((item) => {
+            return <CommentReplyItem id={item.id} childSize={item.childSize} />;
+          })} */}
+      </Stack>
     </>
   );
 };

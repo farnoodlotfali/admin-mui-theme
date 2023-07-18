@@ -45,7 +45,7 @@ const TestForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormContainer data={watch()} setData={handleChange} errors={errors}>
           <Card elevation={0} sx={{ p: 3, mb: 2, boxShadow: 1, overflow: "visible" }}>
-            <FormInputs inputs={Inputs} gridProps={{ md: 12 }} />
+            <FormInputs inputs={Inputs} gridProps={{ md: 12 }}></FormInputs>
             12121
             <LoadingButton
               variant="contained"

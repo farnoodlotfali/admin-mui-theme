@@ -42,20 +42,23 @@ const FormContainer = memo(({ children, data, setData, errors }) => {
 
 const typesLabel = ["checkbox"];
 
-const FormInputs = memo(({ children, inputs, gridProps, sx }) => {
-  const { errors } = useContext(FormContext);
-
-  return (
-    <>
-      <Grid sx={sx} container spacing={2}>
-        {inputs.map((input) => (
-          <RenderInputs input={input} gridProps={gridProps} errors={errors} />
-        ))}
-        {children}
-      </Grid>
-    </>
-  );
-});
+const FormInputs = memo(
+  ({ children, inputs, gridProps, sx, startAfter = true }) => {
+    const { errors } = useContext(FormContext);
+    console.log(children.length);
+    return (
+      <>
+        <Grid sx={sx} container spacing={2}>
+          {!startAfter && !children.length ? children : children[0]}
+          {inputs.map((input) => (
+            <RenderInputs input={input} gridProps={gridProps} errors={errors} />
+          ))}
+          {startAfter && !children.length ? children : children[1]}
+        </Grid>
+      </>
+    );
+  }
+);
 
 const RenderInputs = memo(({ input, gridProps, errors }) => {
   if (input)
