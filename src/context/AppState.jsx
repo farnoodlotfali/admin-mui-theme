@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
-import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 import { AppContext } from "./AppContext";
 import { darkBackgrounds } from "../Utility/Themes/backgrounds";
 import { DarkThemes } from "../Utility/Themes/darkThemes";
@@ -55,6 +59,7 @@ const AppState = (props) => {
                 background: background,
               }),
         },
+        
         components: {
           MuiButton: {
             styleOverrides: {
@@ -89,8 +94,10 @@ const AppState = (props) => {
           MuiOutlinedInput: {
             styleOverrides: {
               root: ({ ownerState, theme }) => ({
+                // background: `linear-gradient(80deg, ${theme.palette.background.default} 1%, ${theme.palette.background.paper} 91%)`,
                 background: theme.palette.background.default,
                 borderRadius: theme.spacing(1),
+                filter: "brightness(0.96)",
               }),
             },
           },
@@ -102,7 +109,9 @@ const AppState = (props) => {
     <AppContext.Provider
       value={{ toggleColorMode, changeTheme, themeColors, mode }}
     >
-      <ThemeProvider theme={responsiveFontSizes(theme)}>{props.children}</ThemeProvider>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>
+        {props.children}
+      </ThemeProvider>
     </AppContext.Provider>
   );
 };

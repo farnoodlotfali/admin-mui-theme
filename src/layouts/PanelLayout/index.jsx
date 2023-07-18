@@ -7,61 +7,69 @@ import { AppContext } from "../../context/AppContext";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { LightThemes } from "../../Utility/Themes/lightThemes";
+import Header from "./Header";
 
 const PanelLayout = () => {
   const theme = useTheme();
   const { toggleColorMode, changeTheme } = useContext(AppContext);
   return (
     <Box
-      sx={{ minHeight: "100vh", bgcolor: "background.default" ,p:3 }}
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "background.default",
+        p: 3,
+        color: "text.primary",
+      }}
       className="App"
     >
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          bgcolor: "background.paper",
-          color: "text.primary",
-          borderRadius: 1,
-          py: 3,
-        }}
-      >
-        {" "}
-        {theme.palette.mode} mode
-        <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
-          {theme.palette.mode === "dark" ? (
-            <Brightness7Icon />
-          ) : (
-            <Brightness4Icon />
-          )}
-        </IconButton>
-        <Button color="primary" variant="contained">
-          primary
-        </Button>
-      </Box>
+      <Header />
+      <Box mt={8}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: "background.paper",
+            color: "text.primary",
+            borderRadius: 1,
+            py: 3,
+          }}
+        >
+          {theme.palette.mode} mode
+          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+            {theme.palette.mode === "dark" ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>
+          <Button color="primary" variant="contained">
+            primary
+          </Button>
+        </Box>
 
-      <Stack py={5} spacing={3} direction={"row"} bgcolor={"lightgreen"}>
-        {Object.entries(LightThemes).map((theme) => {
-          return (
-            <Button
-              key={theme[0]}
-              sx={{
-                width: 70,
-                height: 70,
-                background: `linear-gradient(-45deg, ${theme[1].primary.main} 50%, ${theme[1].secondary.main} 50%)`,
-              }}
-              color="inherit"
-              variant="contained"
-              onClick={() => changeTheme(theme[1])}
-            >
-              {theme[0]}
-            </Button>
-          );
-        })}
-      </Stack>
-      <Outlet />
+        <Stack py={5} spacing={3} direction={"row"} bgcolor={"lightgreen"}>
+          {Object.entries(LightThemes).map((theme) => {
+            return (
+              <Button
+                key={theme[0]}
+                sx={{
+                  width: 70,
+                  height: 70,
+                  background: `linear-gradient(-45deg, ${theme[1].primary.main} 50%, ${theme[1].secondary.main} 50%)`,
+                }}
+                color="inherit"
+                variant="contained"
+                onClick={() => changeTheme(theme[1])}
+              >
+                {theme[0]}
+              </Button>
+            );
+          })}
+        </Stack>
+        <Outlet />
+      </Box>
       {/* <Test /> */}
     </Box>
   );

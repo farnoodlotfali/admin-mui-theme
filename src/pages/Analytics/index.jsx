@@ -17,7 +17,8 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TextField,Box
+  TextField,
+  Box,
 } from "@mui/material";
 import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
@@ -140,13 +141,19 @@ const Analytics = () => {
                 />
                 <Divider />
 
-                <PerfectScrollbar
-                  style={{
+                <Box
+                  sx={{
                     height: "400px",
+                    overflow: "scroll",
                   }}
                 >
                   <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <Table
+                      sx={{
+                        minWidth: 650,
+                      }}
+                      aria-label="simple table"
+                    >
                       <TableHead>
                         <TableRow>
                           {LatestCustomersHead.map((cell) => {
@@ -182,7 +189,7 @@ const Analytics = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                </PerfectScrollbar>
+                </Box>
 
                 <Divider />
                 <CardActions
@@ -272,9 +279,10 @@ const Analytics = () => {
                 />
                 <Divider />
 
-                <PerfectScrollbar
-                  style={{
+                <Box
+                  sx={{
                     height: "370px",
+                    overflow: "scroll",
                   }}
                 >
                   <Stack>
@@ -318,7 +326,7 @@ const Analytics = () => {
                       );
                     })}
                   </Stack>
-                </PerfectScrollbar>
+                </Box>
               </Card>
             </Grid>
 

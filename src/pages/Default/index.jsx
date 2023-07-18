@@ -191,6 +191,7 @@ const Default = () => {
                           {["Today", "This Month", "This Year"].map((item) => {
                             return (
                               <MenuItem
+                                key={item}
                                 value={item}
                                 style={getStyles(item, personName)}
                               >
@@ -271,13 +272,13 @@ const Default = () => {
                         >
                           Bajaj Finery
                         </Typography>
-                        <Typography variant="caption" color="grey.700">
+                        <Typography variant="caption" color="grey.800">
                           10% Profit
                         </Typography>
                       </Box>
                       <Typography
                         variant="h6"
-                        color="grey.700"
+                        color="grey.800"
                         fontWeight={600}
                       >
                         $1839.00
