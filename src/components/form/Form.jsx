@@ -45,7 +45,6 @@ const typesLabel = ["checkbox"];
 const FormInputs = memo(
   ({ children, inputs, gridProps, sx, startAfter = true }) => {
     const { errors } = useContext(FormContext);
-    console.log(children.length);
     return (
       <>
         <Grid sx={sx} container spacing={2}>

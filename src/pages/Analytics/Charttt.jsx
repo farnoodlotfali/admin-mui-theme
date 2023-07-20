@@ -1,7 +1,8 @@
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material/styles";
-import { useContext, useMemo } from "react";
+import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import useUpdateChart from "../../hook/useUpdateChart";
 const chartColors = [
   "secondary",
   "primary",
@@ -14,7 +15,9 @@ const chartColors = [
 
 const Charttt = ({ lines = 3, height = 200 }) => {
   const theme = useTheme();
-  const { themeColors } = useContext(AppContext);
+  const { themeColors, showDrawer } = useContext(AppContext);
+  const ref = useRef();
+  useUpdateChart("visits-chart");
 
   const renderColors = useMemo(() => {
     let colors = [];
@@ -29,6 +32,7 @@ const Charttt = ({ lines = 3, height = 200 }) => {
     <>
       <ReactApexChart
         key={1}
+        ref={ref}
         options={{
           chart: {
             type: "area",
@@ -37,6 +41,9 @@ const Charttt = ({ lines = 3, height = 200 }) => {
             },
             width: "100%",
             background: "inherit",
+            redrawOnWindowResize: true,
+            redrawOnParentResize: true,
+            id: "visits-chart",
           },
 
           colors: renderColors,

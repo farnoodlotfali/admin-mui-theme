@@ -1,5 +1,4 @@
 import { useTheme } from "@mui/material/styles";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Button,
   Card,
@@ -19,32 +18,34 @@ import {
   Typography,
   TextField,
   Box,
+  useMediaQuery,
+  Icon,
 } from "@mui/material";
-import MonetizationOnTwoToneIcon from "@mui/icons-material/MonetizationOnTwoTone";
-import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import Charttt from "./Charttt";
 import { Fragment, useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { COUNTRY_FLAGS } from "../../Utility/utils";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
-import SensorsIcon from "@mui/icons-material/Sensors";
-import SpokeOutlinedIcon from "@mui/icons-material/SpokeOutlined";
-import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+
+import {
+  TbShare,
+  TbCircles,
+  TbCreditCard,
+  TbBrandFacebook,
+  TbBrandTwitter,
+  TbBrandYoutube,
+  TbTriangleFilled,
+  TbAccessPoint,
+  TbTriangleInvertedFilled,
+  TbFileDescription,
+  TbCoin,
+  TbTrendingDown,
+  TbUserCircle,
+} from "react-icons/tb";
 const Analytics = () => {
   const theme = useTheme();
   const { toggleColorMode, changeTheme } = useContext(AppContext);
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <>
       <Box
@@ -93,7 +94,9 @@ const Analytics = () => {
                       </Grid>
                       <Grid item xs={true}></Grid>
                       <Grid item>
-                        <TrendingDownIcon color="error" fontSize="large" />
+                        <Icon color="error" fontSize="large">
+                          <TbTrendingDown />
+                        </Icon>
                       </Grid>
                       <Grid item>
                         <Typography variant="h6" fontWeight={600}>
@@ -144,7 +147,7 @@ const Analytics = () => {
                 <Box
                   sx={{
                     height: "400px",
-                    overflow: "scroll",
+                    overflowY: "scroll",
                   }}
                 >
                   <TableContainer component={Paper}>
@@ -226,7 +229,10 @@ const Analytics = () => {
                         sm={6}
                         p={3}
                         sx={{
-                          borderBottom: i % 2 === i ? "1px solid" : "none",
+                          borderBottom: (theme) =>
+                            i % 2 === i || (matches && i === 2)
+                              ? "1px solid"
+                              : "none",
                           borderRight: i % 2 === 0 ? "1px solid" : "none",
                           borderColor: "grey.300",
                         }}
@@ -242,7 +248,7 @@ const Analytics = () => {
                                 display="flex"
                                 color={`secondary.main`}
                               >
-                                <info.icon color="inherit" fontSize="medium" />
+                                <info.icon color="inherit" fontSize="20" />
                               </Typography>
                             </Box>
                           </Grid>
@@ -290,11 +296,17 @@ const Analytics = () => {
                       return (
                         <Fragment key={i}>
                           <Button color="secondary">
-                            <Typography>
+                            <Typography
+                              color={
+                                coin.increase ? "success.main" : "error.main"
+                              }
+                              fontSize={8}
+                              p={1}
+                            >
                               {coin.increase ? (
-                                <ArrowDropUpRoundedIcon color={"success"} />
+                                <TbTriangleFilled />
                               ) : (
-                                <ArrowDropDownRoundedIcon color={"error"} />
+                                <TbTriangleInvertedFilled color={"error"} />
                               )}
                             </Typography>
                             <Stack
@@ -351,17 +363,17 @@ const CardReviewDataArray = [
     topText: "1,658",
     bottomText: "Daily user",
     bgcolor: "secondary.main",
-    Icon: AccountCircleTwoToneIcon,
+    CardIcon: TbUserCircle,
   },
   {
     topText: "1K",
     bottomText: "Daily page view",
     bgcolor: "primary.main",
-    Icon: DescriptionOutlinedIcon,
+    CardIcon: TbFileDescription,
   },
 ];
 
-const CardReviewData = ({ topText, bottomText, Icon, bgcolor }) => {
+const CardReviewData = ({ topText, bottomText, CardIcon, bgcolor }) => {
   return (
     <Card elevation={0} sx={{ flex: "1 0 auto", bgcolor: bgcolor }}>
       <CardContent
@@ -379,12 +391,10 @@ const CardReviewData = ({ topText, bottomText, Icon, bgcolor }) => {
             transform: "rotate(25deg)",
           }}
         >
-          {
-            <Icon
-              fontSize="inherit"
-              sx={{ height: 100, width: 100, opacity: 0.5 }}
-            />
-          }
+          <CardIcon
+            fontSize="inherit"
+            style={{ height: 100, width: 100, opacity: 0.5 }}
+          />
         </Typography>
         <Stack textAlign={"center"}>
           <Typography variant="h6" color="white" fontWeight={600}>
@@ -453,22 +463,22 @@ const CoinsArray = [
 
 const SmallInfoArray = [
   {
-    icon: ShareOutlinedIcon,
+    icon: TbShare,
     numb: "1000",
     text: "SHARES",
   },
   {
-    icon: SensorsIcon,
+    icon: TbAccessPoint,
     numb: "600",
     text: "NETWORK",
   },
   {
-    icon: SpokeOutlinedIcon,
+    icon: TbCircles,
     numb: "3550",
     text: "RETURNS",
   },
   {
-    icon: PaymentOutlinedIcon,
+    icon: TbCreditCard,
     numb: "100%",
     text: "ORDER",
   },
@@ -530,24 +540,23 @@ const LatestCustomersArray = [
 
 const MarketShareArray = [
   {
-    Icon: FacebookOutlinedIcon,
+    CardIcon: TbBrandFacebook,
     number: "+ 45.36%",
     color: "secondary",
   },
   {
-    Icon: PublicOutlinedIcon,
+    CardIcon: TbBrandTwitter,
     number: "- 50.69%",
     color: "primary",
   },
   {
-    Icon: OndemandVideoOutlinedIcon,
+    CardIcon: TbBrandYoutube,
     number: "+ 16.85%",
     color: "error",
   },
 ];
 
-const MarketShareItem = ({ Icon, number, color }) => {
-  // console.log(color);
+const MarketShareItem = ({ CardIcon, number, color }) => {
   return (
     <Stack direction="row" alignItems={"center"} spacing={1}>
       <Box
@@ -558,7 +567,7 @@ const MarketShareItem = ({ Icon, number, color }) => {
         }
       >
         <Typography display="flex" color={`${color}.main`}>
-          <Icon color="inherit" />
+          <CardIcon color="inherit" fontSize="25" />
         </Typography>
       </Box>
       <Typography variant="subtitle1" fontWeight={600}>
@@ -574,18 +583,18 @@ const CardDataArray = [
     mainText: "$42,562",
     bottomText: "$50,032 Last Month",
     bgcolor: "secondary.main",
-    Icon: MonetizationOnTwoToneIcon,
+    CardIcon: TbCoin,
   },
   {
     topText: "Orders Received",
     mainText: "486",
     bottomText: "20% Increase",
     bgcolor: "primary.main",
-    Icon: AccountCircleTwoToneIcon,
+    CardIcon: TbUserCircle,
   },
 ];
 
-const CardData = ({ topText, mainText, bottomText, Icon, bgcolor }) => {
+const CardData = ({ topText, mainText, bottomText, CardIcon, bgcolor }) => {
   return (
     <Card elevation={0} sx={{ flex: "1 0 auto", bgcolor: bgcolor, pb: 0 }}>
       <CardContent
@@ -608,12 +617,10 @@ const CardData = ({ topText, mainText, bottomText, Icon, bgcolor }) => {
             </Typography>
           </Stack>
           <Typography variant="body2" color="white">
-            {
-              <Icon
-                fontSize="inherit"
-                sx={{ height: 100, width: 100, opacity: 0.5 }}
-              />
-            }
+            <CardIcon
+              fontSize="inherit"
+              style={{ height: 100, width: 100, opacity: 0.5 }}
+            />
           </Typography>
         </Stack>
       </CardContent>

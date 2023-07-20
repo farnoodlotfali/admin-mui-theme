@@ -59,6 +59,10 @@ const router = createBrowserRouter([
         element: <Analytics />,
       },
       {
+        path: "/analytics",
+        element: <Analytics />,
+      },
+      {
         path: "/default",
         element: <Default />,
       },

@@ -1,21 +1,12 @@
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Divider,
   Grid,
-  Paper,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
-  TextField,
   Box,
   Avatar,
   Menu,
@@ -24,26 +15,30 @@ import {
   Select,
   OutlinedInput,
   IconButton,
+  Icon,
 } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { styled, useTheme } from "@mui/material/styles";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import TableChartIcon from "@mui/icons-material/TableChart";
-import PublishRoundedIcon from "@mui/icons-material/PublishRounded";
-import TrendingDownSharpIcon from "@mui/icons-material/TrendingDownSharp";
-import PictureAsPdfRoundedIcon from "@mui/icons-material/PictureAsPdfRounded";
-import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
-import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import ReactApexChart from "react-apexcharts";
 import { Fragment, useState } from "react";
 import { renderThemeColors } from "../../Utility/utils";
 import Charttt from "../Analytics/Charttt";
+
+import {
+  TbShoppingBag,
+  TbBrandItch,
+  TbChartTreemap,
+  TbDots,
+  TbCreditCard,
+  TbTrendingUp,
+  TbTrendingDown,
+  TbSquareArrowUp,
+  TbCopy,
+  TbPdf,
+  TbArchive,
+  TbChevronDown,
+  TbChevronUp,
+  TbChevronRight,
+} from "react-icons/tb";
 
 const StyledComp = styled(Card, {
   // shouldForwardProp: (prop) => prop !== "lowerCase" && prop !== "myProp",
@@ -236,11 +231,12 @@ const Default = () => {
               <Card elevation={0} sx={{ p: 1 }}>
                 <CardHeader
                   action={
-                    <IconButton aria-label="settings" size="small">
-                      <MoreHorizIcon
-                        fontSize="inherit"
-                        sx={{ color: "primary.200" }}
-                      />
+                    <IconButton
+                      aria-label="settings"
+                      size="small"
+                      sx={{ color: "primary.200" }}
+                    >
+                      <TbDots />
                     </IconButton>
                   }
                   title={
@@ -300,7 +296,7 @@ const Default = () => {
                   </Stack>
                   <Stack direction="row" mt={3} justifyContent="center">
                     <Button variant="text" sx={{ typography: "body1" }}>
-                      View All <KeyboardArrowRightRoundedIcon />
+                      View All <TbChevronRight />
                     </Button>
                   </Stack>
                 </CardContent>
@@ -372,11 +368,12 @@ const PopularStocksItem = ({ item }) => {
           }}
           variant="rounded"
         >
-          {item.status === "success" ? (
-            <KeyboardArrowUpRoundedIcon fontSize="small" color="success" />
-          ) : (
-            <KeyboardArrowDownRoundedIcon fontSize="small" color="error" />
-          )}
+          <Icon
+            sx={{ fontSize: 14 }}
+            color={item.status === "success" ? "success" : "error"}
+          >
+            {item.status === "success" ? <TbChevronUp /> : <TbChevronDown />}
+          </Icon>
         </Avatar>
       </Stack>
     </Stack>
@@ -488,14 +485,22 @@ const INCOME_DATA = [
     subTitle: "Total Income",
     bgcolor: "primary.800",
     type: 0,
-    Icon: <TableChartIcon fontSize="small" sx={{ color: "white" }} />,
+    Icon: (
+      <Icon fontSize="medium" sx={{ color: "white" }}>
+        <TbChartTreemap />
+      </Icon>
+    ),
   },
   {
     title: "$203k",
     subTitle: "Total Income",
     bgcolor: "warning.dark",
     type: 1,
-    Icon: <TableChartIcon fontSize="small" sx={{ color: "white" }} />,
+    Icon: (
+      <Icon fontSize="medium" sx={{ color: "white" }}>
+        <TbBrandItch />
+      </Icon>
+    ),
   },
 ];
 
@@ -566,7 +571,9 @@ const TotalEarningCard = ({}) => {
                 }}
                 variant="rounded"
               >
-                <CreditCardIcon fontSize="small" sx={{ color: "white" }} />
+                <Icon fontSize="small" sx={{ color: "white" }}>
+                  <TbCreditCard />
+                </Icon>
               </Avatar>
               <Avatar
                 sx={{
@@ -587,7 +594,7 @@ const TotalEarningCard = ({}) => {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
               >
-                <MoreHorizIcon fontSize="small" />
+                <TbDots fontSize="20" />
               </Avatar>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
@@ -608,15 +615,17 @@ const TotalEarningCard = ({}) => {
                     }}
                     variant="circular"
                   >
-                    <TrendingUpIcon
+                    <Icon
                       sx={{
                         fontSize: 16,
                         color: (theme) =>
                           theme.palette.mode === "dark"
                             ? "secondary.main"
-                            : "white",
+                            : "primary.light",
                       }}
-                    />
+                    >
+                      <TbTrendingUp />
+                    </Icon>
                   </Avatar>
                 </Stack>
                 <Typography color="secondary.200">Total Earning</Typography>
@@ -641,19 +650,19 @@ const TotalEarningCard = ({}) => {
         }}
       >
         <MenuItem onClick={handleClose} sx={{ gap: 2 }}>
-          <PublishRoundedIcon />
+          <TbSquareArrowUp />
           Import Card
         </MenuItem>
         <MenuItem onClick={handleClose} sx={{ gap: 2 }}>
-          <ContentCopyRoundedIcon />
+          <TbCopy />
           Copy Data
         </MenuItem>
         <MenuItem onClick={handleClose} sx={{ gap: 2 }}>
-          <PictureAsPdfRoundedIcon />
+          <TbPdf />
           Export
         </MenuItem>
         <MenuItem onClick={handleClose} sx={{ gap: 2 }}>
-          <ArchiveRoundedIcon />
+          <TbArchive />
           Archive File
         </MenuItem>
       </Menu>
@@ -698,10 +707,9 @@ const TotalOrderCard = ({}) => {
               }}
               variant="rounded"
             >
-              <ShoppingBasketRoundedIcon
-                fontSize="small"
-                sx={{ color: "white" }}
-              />
+              <Icon sx={{ color: "white" }}>
+                <TbShoppingBag />
+              </Icon>
             </Avatar>
             <Stack direction="row">
               {BUTTONS.map((btn) => {
@@ -747,15 +755,17 @@ const TotalOrderCard = ({}) => {
                   }}
                   variant="circular"
                 >
-                  <TrendingDownSharpIcon
+                  <Icon
                     sx={{
                       fontSize: 16,
                       color: (theme) =>
                         theme.palette.mode === "dark"
                           ? "primary.main"
-                          : "white",
+                          : "primary.light",
                     }}
-                  />
+                  >
+                    <TbTrendingDown />
+                  </Icon>
                 </Avatar>
               </Stack>
               <Typography color="primary.200">Total Order</Typography>

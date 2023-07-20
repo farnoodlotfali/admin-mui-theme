@@ -13,6 +13,12 @@ const LIGHT_BACKGROUND = { paper: "#fff", default: "#EEF2F6" };
 
 const AppState = (props) => {
   const [mode, setMode] = useState(localStorage.getItem("mode") ?? "light");
+  const [drawer, setDrawer] = useState(
+    localStorage.getItem("drawer")
+      ? JSON.parse(localStorage.getItem("drawer"))
+      : []
+  );
+  const [showDrawer, setShowDrawer] = useState(true);
   const [background, setBackground] = useState(
     localStorage.getItem("theme")
       ? darkBackgrounds[JSON.parse(localStorage.getItem("theme")).name]
@@ -23,6 +29,13 @@ const AppState = (props) => {
       ? JSON.parse(localStorage.getItem("theme"))
       : LightThemes.theme1
   );
+
+  const toggleShowDrawer = () => setShowDrawer((prev) => !prev);
+
+  const holdOpenMenu = (val) => {
+    localStorage.setItem("drawer", JSON.stringify(val));
+    setDrawer(val);
+  };
 
   const toggleColorMode = () => {
     const newMode = mode === "light" ? "dark" : "light";
@@ -59,7 +72,7 @@ const AppState = (props) => {
                 background: background,
               }),
         },
-        
+
         components: {
           MuiButton: {
             styleOverrides: {
@@ -101,13 +114,25 @@ const AppState = (props) => {
               }),
             },
           },
+          MuiTypography: {
+            defaultProps: {},
+          },
         },
       }),
     [mode, themeColors, background]
   );
   return (
     <AppContext.Provider
-      value={{ toggleColorMode, changeTheme, themeColors, mode }}
+      value={{
+        toggleColorMode,
+        changeTheme,
+        themeColors,
+        mode,
+        drawer,
+        setDrawer: holdOpenMenu,
+        showDrawer,
+        toggleShowDrawer,
+      }}
     >
       <ThemeProvider theme={responsiveFontSizes(theme)}>
         {props.children}

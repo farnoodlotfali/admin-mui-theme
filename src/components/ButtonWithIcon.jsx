@@ -1,14 +1,12 @@
 import { Avatar } from "@mui/material";
 import { memo } from "react";
 
-const ButtonWithIcon = ({ Icon, hover = true, color, ...rest }) => {
+const ButtonWithIcon = ({ Icon, hover = true, color, sx, ...rest }) => {
   return (
     <Avatar
       sx={{
         bgcolor: (theme) =>
-          theme.palette.mode === "dark"
-            ? "#00000055"
-            : `${color}.light`,
+          theme.palette.mode === "dark" ? "#00000055" : `${color}.light`,
         color: `${color}.main`,
         borderRadius: 2,
         height: 34,
@@ -19,6 +17,7 @@ const ButtonWithIcon = ({ Icon, hover = true, color, ...rest }) => {
           bgcolor: `${color}.main`,
           color: `${color}.light`,
         },
+        ...sx,
       }}
       //   variant="rounded"
       //   id="demo-positioned-button"
@@ -29,7 +28,7 @@ const ButtonWithIcon = ({ Icon, hover = true, color, ...rest }) => {
 
       {...rest}
     >
-      <Icon fontSize="small" />
+      <Icon fontSize="19" />
     </Avatar>
   );
 };
