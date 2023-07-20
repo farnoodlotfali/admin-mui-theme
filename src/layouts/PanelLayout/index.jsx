@@ -14,11 +14,12 @@ import {
 } from "react-icons/tb";
 import { LightThemes } from "../../Utility/Themes/lightThemes";
 import Header from "./Header";
-import Drawer, {
+import{
   DRAWER_TRANSITION,
   DRAWER_WIDTH,
   DRAWER_WIDTH_CLOSE,
 } from "./constant";
+import Drawer from "./Drawer";
 
 const PanelLayout = () => {
   const theme = useTheme();
