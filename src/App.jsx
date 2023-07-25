@@ -6,6 +6,7 @@ import Analytics from "./pages/Analytics";
 import PanelLayout from "./layouts/PanelLayout";
 import Profile from "./pages/Profile";
 import TestForm from "./pages/TestForm";
+import DisplayTest from "./pages/displayTest";
 
 // function lazyLoadRoutes(componentName, src = "pages") {
 //   const LazyElement = lazy(() => import(`./${src}/${componentName}`));
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "/myForm",
         element: <TestForm />,
+      },
+      {
+        path: "/display",
+        element: <DisplayTest />,
       },
       // {
       //   path: "projects",
